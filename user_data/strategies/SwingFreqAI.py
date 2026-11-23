@@ -4,7 +4,7 @@ crytrd swing signal strategy (Phase 1).
 The model answers one question per pair and candle:
     P(price touches >= LABEL_MOVE above the close within the next 72h)
 Entries fire only when that probability clears a strict threshold. The bot runs in
-dry-run only; entries are paper trades whose Discord messages act as the signals.
+dry-run only; entries are paper trades whose Telegram messages act as the signals.
 """
 
 import logging

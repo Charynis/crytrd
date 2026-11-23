@@ -5,7 +5,7 @@ Handoff document. Any new Claude Code session (e.g. in VS Code): **read this fil
 ## Goal
 
 A system that analyses the crypto market in real time, **selects coins itself** from a liquid universe, and predicts the
-probability of a profitable swing move. It sends **Discord alerts** and shows a **web dashboard**.
+probability of a profitable swing move. It sends **Telegram alerts** and shows a **web dashboard**.
 **The user trades manually on CoinDCX** — the bot never places real orders.
 
 Framing: the model does not "predict the price". It answers:
@@ -20,7 +20,7 @@ and ranks coins by that probability, flagging only high-confidence setups. "No s
 | Style | **Swing trading, 1–3 day holds** (chosen over scalping: better signal/noise, fees matter less) |
 | Universe | **Top 50 coins by volume**, excluding stablecoins, leveraged tokens, very new listings |
 | Market | **Spot only, no leverage** |
-| Output | **Web dashboard** (FreqUI) + **Discord alerts** (signals + notable coin movements) |
+| Output | **Web dashboard** (FreqUI) + **Telegram alerts** (signals + notable coin movements) |
 | Hardware | Windows 11 laptop, **RTX 2050 (4 GB VRAM)**, Docker Desktop + WSL2 available |
 | Budget | Free / open-source tools only (optional VPS later ~₹400–800/mo for 24/7 uptime) |
 | Philosophy | Reuse existing tools, don't build from scratch |
@@ -32,7 +32,7 @@ Binance public data ─┐
 News + local LLM ────┼──► FreqAI model (LightGBM + Chronos features) ──► ranked coin signals
 Funding / OI ────────┘                                                    │
                                     ┌─────────────────────────────────────┼──────────────┐
-                                  FreqUI                              Discord          Paper log
+                                  FreqUI                              Telegram         Paper log
                                (dashboard)                            alerts        (proof of edge)
                                                                          │
                                                               User trades manually on CoinDCX
@@ -47,7 +47,7 @@ Funding / OI ────────┘                                        
 | Coin selection | Freqtrade `VolumePairList` (50 pairs) + filters (spread, age, price, volatility) |
 | Market data | **Binance public data** (signal source — deepest liquidity/history). CoinDCX prices track global + small INR premium |
 | Dashboard | **FreqUI** on localhost |
-| Alerts | Freqtrade built-in **Discord webhook** (+ custom movement alerts later) |
+| Alerts | Freqtrade built-in **Telegram bot** (switched from Discord 2026-11-23) (+ custom movement alerts later) |
 | Time-series models (Phase 2) | **Chronos-Bolt** small/base or **TimesFM** as extra features |
 | Derivatives data (Phase 2) | Binance futures funding rates + open interest (free) |
 | News (Phase 3) | **CryptoPanic API** free tier (verify current terms) + RSS |
@@ -87,13 +87,13 @@ Optional Phase 4: small adapter using CoinDCX public REST API for INR prices / p
 - Features: multi-window returns, volatility (ATR), RSI, MACD, Bollinger position, volume z-score, BTC-relative strength
 - LightGBM classifier, periodic retraining
 - Backtest last 1–2 years with fees; report precision of top-confidence picks vs base rate
-- Discord webhook alerts: coin, entry zone, stop-loss (ATR-based), target, confidence, expected hold time
+- Telegram alerts: coin, entry zone, stop-loss (ATR-based), target, confidence, expected hold time
 - FreqUI dashboard on localhost
 
 ### Phase 2 — Market structure features
 - Funding rate + open interest features
 - Chronos-Bolt forecasts as features
-- Custom Discord "big move" alerts (volume spikes, ±X% moves on watchlist) independent of model signals
+- Custom Telegram "big move" alerts (volume spikes, ±X% moves on watchlist) independent of model signals
 
 ### Phase 3 — News & LLM
 - CryptoPanic + RSS ingestion
@@ -107,7 +107,7 @@ Optional Phase 4: small adapter using CoinDCX public REST API for INR prices / p
 
 ## What the user provides
 - Docker Desktop running
-- Discord webhook URL (Channel settings → Integrations → Webhooks) — store in a git-ignored config/env file, never commit
+- Telegram bot token (@BotFather) + chat id — store in a git-ignored config/env file, never commit
 - CryptoPanic account/API key (Phase 3) — user signs up
 - Approval for large downloads (Docker images, model weights)
 - **No exchange API keys are needed** (signals-only system)

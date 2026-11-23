@@ -1,7 +1,7 @@
 # crytrd — crypto swing signals (Phase 1)
 
 Freqtrade + FreqAI (LightGBM) in Docker, **dry-run only**, Binance public data.
-Paper entries are posted to Discord as signals; you execute manually on CoinDCX if you choose.
+Paper entries are posted to Telegram as signals; you execute manually on CoinDCX if you choose.
 See [PLAN.md](PLAN.md) for the full design.
 
 ## Layout
@@ -9,8 +9,8 @@ See [PLAN.md](PLAN.md) for the full design.
 | Path | Purpose |
 |---|---|
 | `docker-compose.yml` | Freqtrade (`stable_freqai` image), FreqUI on `127.0.0.1:8080` |
-| `.env` (from `.env.example`) | Discord webhook + FreqUI login. Git-ignored |
-| `user_data/config.json` | Dry-run, top-50 VolumePairList + filters, FreqAI, Discord, API server |
+| `.env` (from `.env.example`) | Telegram bot token + chat id, FreqUI login. Git-ignored |
+| `user_data/config.json` | Dry-run, top-50 VolumePairList + filters, FreqAI, Telegram, API server |
 | `user_data/config.backtest.json` | Backtest overlay: static list of 35 liquid pairs |
 | `user_data/strategies/SwingFreqAI.py` | Features, target, entry threshold, ATR stop, 72h time exit |
 | `user_data/scripts/evaluate_signals.py` | Precision of high-confidence picks vs base rate |
@@ -27,7 +27,7 @@ Exits: +5% net (ROI), stop at 2×ATR (clamped 2–10%), or 72h time exit.
 ## Setup
 
 1. Install **Docker Desktop** (WSL2 backend) and start it.
-2. `copy .env.example .env`, then fill in the Discord webhook URL and FreqUI password/secrets.
+2. `copy .env.example .env`, then fill in the Telegram bot token + chat id (steps in the file) and FreqUI password/secrets.
 3. Pull the image (~2 GB): `docker compose pull`
 
 ## Backtest (do this before running live)
@@ -60,5 +60,5 @@ docker compose logs -f
 ```
 
 FreqUI: http://localhost:8080 (login from `.env`). The first models train on startup, which takes several minutes
-for 50 pairs. Discord gets a message on each paper entry (confidence | entry zone | stop | target | hold) and exit.
+for 50 pairs. Telegram gets a message on each paper entry (confidence | entry zone | stop | target | hold) and exit.
 With `max_open_trades: 5`, new signals are not posted while 5 paper trades are open.

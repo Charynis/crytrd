@@ -112,25 +112,6 @@
             "verbosity": -1
         }
     },
-    "discord": {
-        "enabled": false,
-        "webhook_url": "",
-        "entry_fill": [
-            {"Signal": "{pair}"},
-            {"Setup (confidence | entry zone | stop | target | hold)": "{enter_tag}"},
-            {"Paper fill": "{open_rate}"},
-            {"Time": "{open_date:%Y-%m-%d %H:%M} UTC"},
-            {"Note": "Dry-run model signal, not advice. Execute manually on CoinDCX only if it fits your plan."}
-        ],
-        "exit_fill": [
-            {"Closed": "{pair}"},
-            {"Reason": "{exit_reason}"},
-            {"Open -> close": "{open_rate} -> {close_rate}"},
-            {"Paper result": "{profit_ratio:.2%}"},
-            {"Setup was": "{enter_tag}"},
-            {"Held": "{open_date:%Y-%m-%d %H:%M} -> {close_date:%Y-%m-%d %H:%M} UTC"}
-        ]
-    },
     "api_server": {
         "enabled": true,
         "listen_ip_address": "0.0.0.0",
@@ -146,7 +127,24 @@
     "telegram": {
         "enabled": false,
         "token": "",
-        "chat_id": ""
+        "chat_id": "",
+        "notification_settings": {
+            "status": "silent",
+            "warning": "on",
+            "startup": "silent",
+            "entry": "on",
+            "entry_fill": "off",
+            "entry_cancel": "silent",
+            "exit": "on",
+            "exit_fill": "off",
+            "exit_cancel": "silent",
+            "protection_trigger": "silent",
+            "protection_trigger_global": "on",
+            "strategy_msg": "on",
+            "show_candle": "off"
+        },
+        "reload": true,
+        "balance_dust_level": 0.01
     },
     "initial_state": "running",
     "force_entry_enable": false,
