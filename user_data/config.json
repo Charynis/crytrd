@@ -1,0 +1,156 @@
+{
+    "bot_name": "crytrd",
+    "dry_run": true,
+    "dry_run_wallet": 1000,
+    "trading_mode": "spot",
+    "margin_mode": "",
+    "max_open_trades": 5,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "",
+    "timeframe": "1h",
+    "fee": 0.003,
+    "cancel_open_orders_on_exit": false,
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 10,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "order_types": {
+        "entry": "limit",
+        "exit": "limit",
+        "emergency_exit": "market",
+        "force_entry": "market",
+        "force_exit": "market",
+        "stoploss": "market",
+        "stoploss_on_exchange": false
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {},
+        "ccxt_async_config": {},
+        "pair_whitelist": [],
+        "pair_blacklist": [
+            "(USDC|FDUSD|TUSD|BUSD|DAI|USDP|USDD|PYUSD|USDE|USD1|RLUSD|BFUSD|XUSD|EUR|EURI|AEUR|GBP|TRY|BRL)/.*",
+            "(PAXG|XAUT|WBTC|WBETH|BETH|BNSOL)/.*",
+            "(BTC|ETH|BNB|XRP|ADA|DOT|LINK|TRX|XLM|LTC|FIL|SXP|UNI|AAVE|SUSHI|YFI|1INCH|EOS|BCH|XTZ)(UP|DOWN)/.*",
+            ".*(BULL|BEAR)/.*"
+        ]
+    },
+    "pairlists": [
+        {
+            "method": "VolumePairList",
+            "number_assets": 50,
+            "sort_key": "quoteVolume",
+            "min_value": 0,
+            "refresh_period": 1800
+        },
+        {"method": "AgeFilter", "min_days_listed": 180},
+        {"method": "SpreadFilter", "max_spread_ratio": 0.005},
+        {"method": "PriceFilter", "low_price_ratio": 0.005},
+        {
+            "method": "RangeStabilityFilter",
+            "lookback_days": 10,
+            "min_rate_of_change": 0.03,
+            "refresh_period": 86400
+        }
+    ],
+    "freqai": {
+        "enabled": true,
+        "identifier": "swing_lgbm_v1",
+        "purge_old_models": 2,
+        "train_period_days": 180,
+        "backtest_period_days": 14,
+        "live_retrain_hours": 48,
+        "expiration_hours": 4,
+        "fit_live_predictions_candles": 300,
+        "feature_parameters": {
+            "include_timeframes": ["1h", "4h"],
+            "include_corr_pairlist": ["BTC/USDT", "ETH/USDT"],
+            "label_period_candles": 72,
+            "include_shifted_candles": 2,
+            "indicator_periods_candles": [14, 42],
+            "weight_factor": 0.9,
+            "DI_threshold": 0,
+            "use_SVM_to_remove_outliers": false,
+            "principal_component_analysis": false,
+            "plot_feature_importances": 0
+        },
+        "data_split_parameters": {
+            "test_size": 0.2,
+            "shuffle": false
+        },
+        "model_training_parameters": {
+            "n_estimators": 500,
+            "learning_rate": 0.03,
+            "num_leaves": 31,
+            "min_child_samples": 100,
+            "subsample": 0.8,
+            "subsample_freq": 1,
+            "colsample_bytree": 0.7,
+            "reg_lambda": 1.0,
+            "n_jobs": 4,
+            "verbosity": -1
+        }
+    },
+    "discord": {
+        "enabled": false,
+        "webhook_url": "",
+        "entry_fill": [
+            {"Signal": "{pair}"},
+            {"Setup (confidence | entry zone | stop | target | hold)": "{enter_tag}"},
+            {"Paper fill": "{open_rate}"},
+            {"Time": "{open_date:%Y-%m-%d %H:%M} UTC"},
+            {"Note": "Dry-run model signal, not advice. Execute manually on CoinDCX only if it fits your plan."}
+        ],
+        "exit_fill": [
+            {"Closed": "{pair}"},
+            {"Reason": "{exit_reason}"},
+            {"Open -> close": "{open_rate} -> {close_rate}"},
+            {"Paper result": "{profit_ratio:.2%}"},
+            {"Setup was": "{enter_tag}"},
+            {"Held": "{open_date:%Y-%m-%d %H:%M} -> {close_date:%Y-%m-%d %H:%M} UTC"}
+        ]
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "0.0.0.0",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "",
+        "ws_token": "",
+        "CORS_origins": [],
+        "username": "crytrd",
+        "password": ""
+    },
+    "telegram": {
+        "enabled": false,
+        "token": "",
+        "chat_id": ""
+    },
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}
